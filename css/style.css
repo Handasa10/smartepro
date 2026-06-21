@@ -1612,6 +1612,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 768px) {
+    .wave-divider-section {
+        margin: 60px 0;
+        height: 100px;
+    }
     .logo-img {
         height: 50px;
     }
@@ -1723,6 +1727,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 480px) {
+    .wave-divider-section {
+        margin: 40px 0;
+        height: 80px;
+    }
     .container {
         padding: 0 16px;
     }
@@ -1779,7 +1787,8 @@ h1, h2, h3, h4, h5, h6 {
     overflow: hidden;
     border-top: 2px solid rgba(0, 212, 255, 0.45);
     border-bottom: 2px solid rgba(126, 231, 135, 0.45);
-    box-shadow: 0 -15px 30px rgba(0, 0, 0, 0.9), inset 0 15px 30px rgba(0, 0, 0, 0.6), inset 0 -15px 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 -15px 35px rgba(0, 0, 0, 0.95), 0 15px 35px rgba(0, 0, 0, 0.95), inset 0 15px 30px rgba(0, 0, 0, 0.6), inset 0 -15px 30px rgba(0, 0, 0, 0.6);
+    margin: 100px 0;
     z-index: 10;
 }
 

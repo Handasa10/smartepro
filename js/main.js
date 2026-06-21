@@ -375,12 +375,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const height = waveCanvas.height;
             const centerY = height / 2;
 
-            // Draw wave 1 (Primary: Cyan, slower, higher amplitude)
+            // Draw wave 1 (Primary: Lime Green, slower, higher amplitude)
             ctx.beginPath();
-            ctx.strokeStyle = '#00d4ff';
+            ctx.strokeStyle = '#7ee787';
             ctx.lineWidth = 2.5;
             ctx.shadowBlur = 12;
-            ctx.shadowColor = '#00d4ff';
+            ctx.shadowColor = '#7ee787';
 
             for (let x = 0; x < width; x++) {
                 const angle = (x / width) * Math.PI * 4 + phase;
@@ -395,12 +395,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             ctx.stroke();
 
-            // Draw wave 2 (Secondary: Lime Green, faster, lower amplitude)
+            // Draw wave 2 (Secondary: Cyan, faster, lower amplitude)
             ctx.beginPath();
-            ctx.strokeStyle = '#7ee787';
+            ctx.strokeStyle = '#00d4ff';
             ctx.lineWidth = 1.5;
             ctx.shadowBlur = 8;
-            ctx.shadowColor = '#7ee787';
+            ctx.shadowColor = '#00d4ff';
 
             for (let x = 0; x < width; x++) {
                 const angle = (x / width) * Math.PI * 8 - phase2;
