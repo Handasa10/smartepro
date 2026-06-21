@@ -12,6 +12,7 @@ npm-debug.log*
 
 # Temp/Scratch files
 scratch/
+node_modules/
 .system_generated/
 walkthrough.md
 *1781*.png
