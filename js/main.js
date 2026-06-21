@@ -428,6 +428,81 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ========================================
+    // ELECTROMAGNETIC WAVE CANVAS 2
+    // ========================================
+    const waveCanvas2 = document.getElementById('waveCanvas2');
+    if (waveCanvas2) {
+        const ctx2 = waveCanvas2.getContext('2d');
+        let phase = 0;
+        let phase2 = 0;
+
+        function resizeCanvas2() {
+            waveCanvas2.width = waveCanvas2.parentElement.clientWidth;
+            waveCanvas2.height = waveCanvas2.parentElement.clientHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas2);
+        resizeCanvas2();
+
+        function drawWave2() {
+            ctx2.clearRect(0, 0, waveCanvas2.width, waveCanvas2.height);
+
+            const width = waveCanvas2.width;
+            const height = waveCanvas2.height;
+            const centerY = height / 2;
+
+            // Draw wave 1 (High frequency carrier with envelope modulation - green)
+            ctx2.beginPath();
+            ctx2.strokeStyle = '#7ee787';
+            ctx2.lineWidth = 2.0;
+            ctx2.shadowBlur = 10;
+            ctx2.shadowColor = '#7ee787';
+
+            for (let x = 0; x < width; x++) {
+                const carrier = Math.sin((x / width) * Math.PI * 24 + phase * 2);
+                const envelope = Math.sin((x / width) * Math.PI * 2 + phase * 0.3);
+                const y = centerY + carrier * 20 * Math.pow(Math.abs(envelope), 3) * Math.sign(envelope);
+
+                if (x === 0) {
+                    ctx2.moveTo(x, y);
+                } else {
+                    ctx2.lineTo(x, y);
+                }
+            }
+            ctx2.stroke();
+
+            // Draw wave 2 (Cyan background wave, phase shifted)
+            ctx2.beginPath();
+            ctx2.strokeStyle = '#00d4ff';
+            ctx2.lineWidth = 1.0;
+            ctx2.shadowBlur = 5;
+            ctx2.shadowColor = '#00d4ff';
+
+            for (let x = 0; x < width; x++) {
+                const carrier = Math.sin((x / width) * Math.PI * 18 - phase2 * 1.5);
+                const envelope = Math.cos((x / width) * Math.PI * 3 + phase2 * 0.4);
+                const y = centerY + carrier * 12 * Math.pow(Math.abs(envelope), 2);
+
+                if (x === 0) {
+                    ctx2.moveTo(x, y);
+                } else {
+                    ctx2.lineTo(x, y);
+                }
+            }
+            ctx2.stroke();
+
+            ctx2.shadowBlur = 0;
+
+            phase += 0.02;
+            phase2 += 0.025;
+
+            requestAnimationFrame(drawWave2);
+        }
+
+        drawWave2();
+    }
+
+    // ========================================
     // PREFERS REDUCED MOTION
     // ========================================
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
