@@ -352,6 +352,82 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(style);
 
     // ========================================
+    // ELECTROMAGNETIC WAVE CANVAS ANIMATION
+    // ========================================
+    const waveCanvas = document.getElementById('waveCanvas');
+    if (waveCanvas) {
+        const ctx = waveCanvas.getContext('2d');
+        let phase = 0;
+        let phase2 = 0;
+
+        function resizeCanvas() {
+            waveCanvas.width = waveCanvas.parentElement.clientWidth;
+            waveCanvas.height = waveCanvas.parentElement.clientHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function drawWave() {
+            ctx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
+
+            const width = waveCanvas.width;
+            const height = waveCanvas.height;
+            const centerY = height / 2;
+
+            // Draw wave 1 (Primary: Cyan, slower, higher amplitude)
+            ctx.beginPath();
+            ctx.strokeStyle = '#00d4ff';
+            ctx.lineWidth = 2.5;
+            ctx.shadowBlur = 12;
+            ctx.shadowColor = '#00d4ff';
+
+            for (let x = 0; x < width; x++) {
+                const angle = (x / width) * Math.PI * 4 + phase;
+                const modulation = Math.sin((x / width) * Math.PI * 1.5 + phase * 0.5);
+                const y = centerY + Math.sin(angle) * 16 * modulation;
+
+                if (x === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            ctx.stroke();
+
+            // Draw wave 2 (Secondary: Lime Green, faster, lower amplitude)
+            ctx.beginPath();
+            ctx.strokeStyle = '#7ee787';
+            ctx.lineWidth = 1.5;
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = '#7ee787';
+
+            for (let x = 0; x < width; x++) {
+                const angle = (x / width) * Math.PI * 8 - phase2;
+                const modulation = Math.cos((x / width) * Math.PI * 1 + phase2 * 0.2);
+                const y = centerY + Math.sin(angle) * 10 * modulation;
+
+                if (x === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            ctx.stroke();
+
+            // Reset shadows for next frame performance
+            ctx.shadowBlur = 0;
+
+            phase += 0.02;
+            phase2 += 0.03;
+
+            requestAnimationFrame(drawWave);
+        }
+
+        drawWave();
+    }
+
+    // ========================================
     // PREFERS REDUCED MOTION
     // ========================================
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

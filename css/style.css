@@ -1768,6 +1768,79 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+/* ========================================
+   ELECTROMAGNETIC WAVE DIVIDER
+   ======================================== */
+.wave-divider-section {
+    position: relative;
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(180deg, var(--dark) 0%, var(--dark-light) 100%);
+    overflow: hidden;
+    border-top: 1px solid rgba(0, 212, 255, 0.1);
+    border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+    z-index: 10;
+}
+
+.wave-marquee {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+    z-index: 1;
+    opacity: 0.05;
+}
+
+.marquee-track {
+    display: flex;
+    white-space: nowrap;
+    gap: 40px;
+    min-width: 100%;
+    animation: scrollMarquee 40s linear infinite;
+}
+
+.marquee-item {
+    font-family: var(--font-main);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: 4px;
+}
+
+.marquee-divider {
+    color: var(--primary);
+    font-size: 1.8rem;
+}
+
+@keyframes scrollMarquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.wave-canvas-wrap {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+#waveCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.wave-overlay-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.08) 0%, transparent 80%);
+    mix-blend-mode: screen;
+}
+
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
     *,
