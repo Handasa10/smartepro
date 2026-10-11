@@ -68,9 +68,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // ========================================
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const href = this.getAttribute('href');
+            if (href.length < 2) return;
+            const target = document.getElementById(href.slice(1));
             if (target) {
+                e.preventDefault();
                 const offset = navbar.offsetHeight;
                 const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
                 window.scrollTo({
@@ -220,30 +222,70 @@ document.addEventListener('DOMContentLoaded', function() {
     // CONTACT FORM
     // ========================================
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        const isArabic = document.documentElement.lang === 'ar';
+        const formError = document.getElementById('formError');
+        const text = isArabic ? {
+            sending: 'جارٍ الإرسال...',
+            failed: 'تعذّر إرسال رسالتك. يرجى المحاولة مرة أخرى أو التواصل معنا عبر الهاتف أو واتساب.'
+        } : {
+            sending: 'Sending...',
+            failed: 'Your message could not be sent. Please try again, or reach us by phone or WhatsApp.'
+        };
+
+        function showFormError(message) {
+            formError.textContent = message;
+            formError.hidden = false;
+        }
+
+        contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+            formError.hidden = true;
+
             const submitBtn = this.querySelector('.btn-submit');
             const originalContent = submitBtn.innerHTML;
-            
+
             // Loading state
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + text.sending;
             submitBtn.disabled = true;
-            
-            // Simulate form submission (replace with actual AJAX if needed)
-            setTimeout(() => {
-                formSuccess.classList.add('show');
+
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: new FormData(contactForm),
+                    headers: { 'Accept': 'application/json' }
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    formSuccess.classList.add('show');
+                    contactForm.reset();
+
+                    // Hide success message after 6 seconds
+                    setTimeout(() => {
+                        formSuccess.classList.remove('show');
+                    }, 6000);
+                } else {
+                    showFormError(result.message || text.failed);
+                }
+            } catch (err) {
+                showFormError(text.failed);
+            } finally {
                 submitBtn.innerHTML = originalContent;
                 submitBtn.disabled = false;
-                contactForm.reset();
-                
-                // Hide success message after 5 seconds
-                setTimeout(() => {
-                    formSuccess.classList.remove('show');
-                }, 5000);
-            }, 1500);
+            }
         });
+
+        // Confirmation after a no-JavaScript submission (contact.php redirects back with ?sent=1)
+        if (new URLSearchParams(window.location.search).get('sent') === '1') {
+            formSuccess.classList.add('show');
+        }
     }
+
+    // ========================================
+    // FOOTER YEAR
+    // ========================================
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
 
     // ========================================
     // BACK TO TOP BUTTON
@@ -352,6 +394,35 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(style);
 
     // ========================================
+    // CANVAS ANIMATION RUNNER
+    // Only animates while the canvas is on screen; draws a single
+    // still frame for visitors who prefer reduced motion.
+    // ========================================
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function animateWhenVisible(canvas, drawFrame) {
+        if (reduceMotion) {
+            drawFrame();
+            window.addEventListener('resize', drawFrame);
+            return;
+        }
+
+        let running = false;
+
+        function loop() {
+            if (!running) return;
+            drawFrame();
+            requestAnimationFrame(loop);
+        }
+
+        new IntersectionObserver(([entry]) => {
+            const wasRunning = running;
+            running = entry.isIntersecting;
+            if (running && !wasRunning) requestAnimationFrame(loop);
+        }).observe(canvas);
+    }
+
+    // ========================================
     // ELECTROMAGNETIC WAVE CANVAS ANIMATION
     // ========================================
     const waveCanvas = document.getElementById('waveCanvas');
@@ -420,11 +491,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
             phase += 0.02;
             phase2 += 0.03;
-
-            requestAnimationFrame(drawWave);
         }
 
-        drawWave();
+        animateWhenVisible(waveCanvas, drawWave);
     }
 
     // ========================================
@@ -495,11 +564,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
             phase += 0.02;
             phase2 += 0.025;
-
-            requestAnimationFrame(drawWave2);
         }
 
-        drawWave2();
+        animateWhenVisible(waveCanvas2, drawWave2);
     }
 
     // ========================================

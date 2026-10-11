@@ -42,6 +42,8 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    /* Stops slide-in animations from widening the page on phones */
+    overflow-x: clip;
 }
 
 body {
@@ -1849,6 +1851,265 @@ h1, h2, h3, h4, h5, h6 {
     inset: 0;
     background: radial-gradient(circle at 50% 50%, rgba(126, 231, 135, 0.08) 0%, transparent 80%);
     mix-blend-mode: screen;
+}
+
+/* Images are wrapped in <picture> for WebP; keep the <img> as the layout box */
+picture {
+    display: contents;
+}
+
+/* ========================================
+   CONTACT FORM EXTRAS
+   ======================================== */
+/* Spam trap: hidden from people, still visible to bots */
+.hp-field {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.form-error {
+    margin: 0 0 16px;
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #b91c1c;
+    font-size: 0.95rem;
+}
+
+.form-error[hidden] {
+    display: none;
+}
+
+/* ========================================
+   LANGUAGE SWITCH
+   ======================================== */
+.lang-switch {
+    font-family: 'Cairo', var(--font-main);
+    border: 1px solid var(--glass-border);
+    border-radius: 999px;
+}
+
+/* ========================================
+   FLOATING WHATSAPP BUTTON
+   ======================================== */
+.whatsapp-float {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #25d366;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.9rem;
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    z-index: 1000;
+    transition: var(--transition);
+}
+
+.whatsapp-float:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 10px 28px rgba(37, 211, 102, 0.5);
+}
+
+/* Sit the back-to-top button above the WhatsApp button */
+.back-to-top {
+    bottom: 92px;
+    right: 28px;
+}
+
+@media (max-width: 480px) {
+    .whatsapp-float {
+        bottom: 16px;
+        right: 16px;
+        width: 52px;
+        height: 52px;
+    }
+
+    .back-to-top {
+        bottom: 80px;
+        right: 18px;
+    }
+}
+
+/* ========================================
+   ARABIC / RIGHT-TO-LEFT LAYOUT
+   ======================================== */
+[dir="rtl"] {
+    --font-main: 'Cairo', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'Cairo', 'Inter', sans-serif;
+}
+
+/* Arabic letters are joined, so letter spacing breaks them apart */
+[dir="rtl"] .btn,
+[dir="rtl"] .hero-title,
+[dir="rtl"] .stat-label,
+[dir="rtl"] .scroll-indicator,
+[dir="rtl"] .section-tag,
+[dir="rtl"] .featured-badge,
+[dir="rtl"] .project-category,
+[dir="rtl"] .status-count,
+[dir="rtl"] .status-badge,
+[dir="rtl"] .ongoing-badge,
+[dir="rtl"] .footer-contact h4 {
+    letter-spacing: 0;
+}
+
+[dir="rtl"] .hero-title {
+    line-height: 1.35;
+}
+
+/* The scrolling brand strip is English text; keep its loop running left-to-right */
+[dir="rtl"] .wave-marquee {
+    direction: ltr;
+}
+
+/* Arrow icons point the other way */
+[dir="rtl"] .fa-arrow-right,
+[dir="rtl"] .fa-paper-plane {
+    transform: scaleX(-1);
+}
+
+/* Phone numbers and emails stay left-to-right inside Arabic text */
+[dir="rtl"] a[href^="tel:"],
+[dir="rtl"] a[href^="mailto:"],
+[dir="rtl"] .ltr {
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+[dir="rtl"] .info-content a {
+    text-align: right;
+}
+
+[dir="rtl"] .nav-cta {
+    margin-left: 0;
+    margin-right: 8px;
+}
+
+[dir="rtl"] .image-accent {
+    right: auto;
+    left: -20px;
+}
+
+[dir="rtl"] .experience-badge {
+    left: auto;
+    right: -30px;
+}
+
+[dir="rtl"] .featured-badge {
+    right: auto;
+    left: 20px;
+}
+
+[dir="rtl"] .status-count {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+[dir="rtl"] .status-project-card {
+    border-right: none;
+    border-left: 1px solid var(--border);
+}
+
+[dir="rtl"] .status-project-card:nth-child(2n) {
+    border-left: none;
+}
+
+[dir="rtl"] .ongoing-badge {
+    margin-left: 0;
+    margin-right: 8px;
+}
+
+[dir="rtl"] .cta-box::before {
+    right: auto;
+    left: -20%;
+}
+
+[dir="rtl"] .info-card:hover {
+    transform: translateX(-8px);
+}
+
+[dir="rtl"] .footer-links a:hover {
+    padding-left: 0;
+    padding-right: 4px;
+}
+
+[dir="rtl"] .form-select {
+    background-position: left 18px center;
+    padding-right: 18px;
+    padding-left: 45px;
+}
+
+[dir="rtl"] [data-animate="fade-right"] {
+    transform: translateX(40px);
+}
+
+[dir="rtl"] [data-animate="fade-left"] {
+    transform: translateX(-40px);
+}
+
+[dir="rtl"] [data-animate].animated {
+    transform: translate(0) scale(1);
+}
+
+[dir="rtl"] .whatsapp-float {
+    right: auto;
+    left: 24px;
+}
+
+[dir="rtl"] .back-to-top {
+    right: auto;
+    left: 28px;
+}
+
+@media (max-width: 1024px) {
+    [dir="rtl"] .experience-badge {
+        left: auto;
+        right: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    [dir="rtl"] .nav-menu {
+        right: auto;
+        left: -100%;
+        box-shadow: 10px 0 40px rgba(0, 0, 0, 0.3);
+    }
+
+    [dir="rtl"] .nav-menu.active {
+        left: 0;
+    }
+
+    [dir="rtl"] .nav-cta {
+        margin-right: 0;
+    }
+
+    [dir="rtl"] .status-project-card {
+        border-left: none;
+    }
+
+    [dir="rtl"] .status-count {
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    [dir="rtl"] .whatsapp-float {
+        left: 16px;
+    }
+
+    [dir="rtl"] .back-to-top {
+        left: 18px;
+    }
 }
 
 /* Reduced Motion */
