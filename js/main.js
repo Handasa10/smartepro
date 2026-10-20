@@ -350,32 +350,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ========================================
-    // NAVBAR HIDE/SHOW ON SCROLL DIRECTION
-    // ========================================
-    let lastScrollY = window.scrollY;
-    let ticking = false;
-
-    function handleNavDirection() {
-        const currentScrollY = window.scrollY;
-        
-        if (currentScrollY > lastScrollY && currentScrollY > 200) {
-            navbar.style.transform = 'translateY(-100%)';
-        } else {
-            navbar.style.transform = 'translateY(0)';
-        }
-        
-        lastScrollY = currentScrollY;
-        ticking = false;
-    }
-
-    window.addEventListener('scroll', function() {
-        if (!ticking) {
-            requestAnimationFrame(handleNavDirection);
-            ticking = true;
-        }
-    }, { passive: true });
-
-    // ========================================
     // ADD FADE IN UP KEYFRAME DYNAMICALLY
     // ========================================
     const style = document.createElement('style');
