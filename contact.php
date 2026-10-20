@@ -12,7 +12,7 @@ date_default_timezone_set('Asia/Kuwait');
 
 // Configuration
 $recipient_email = "admin@smartepro.com";
-$sender_email    = "noreply@smartepro.com";
+$sender_email    = "admin@smartepro.com"; // must be the Hostinger mailbox the site logs in to
 $subject_prefix  = "[Smart Energy Website] ";
 
 // Anti-abuse: maximum accepted submissions per visitor IP within the window
