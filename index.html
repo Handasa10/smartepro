@@ -7,26 +7,36 @@
     <meta name="description" content="Kuwait's leading MEW-approved electrical contractor. Specializing in residential, commercial, and industrial electrical installations, cabling, DB dressing, and MEW approvals.">
     <meta name="keywords" content="electrical contractor kuwait, electrical contracting company kuwait, electrical installation kuwait, electrician kuwait, MEW approved electrical contractor, MEW license electrician kuwait, commercial electrical contracting kuwait, industrial electrical installations, smart home installation kuwait">
     <link rel="canonical" href="https://www.smartepro.com/">
+    <link rel="alternate" hreflang="en" href="https://www.smartepro.com/">
+    <link rel="alternate" hreflang="ar" href="https://www.smartepro.com/ar/">
+    <link rel="alternate" hreflang="x-default" href="https://www.smartepro.com/">
+    <meta name="theme-color" content="#0a1628">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.smartepro.com/">
     <meta property="og:title" content="Smart Energy | #1 Electrical Installations & Contracting in Kuwait">
     <meta property="og:description" content="Kuwait's leading MEW-approved electrical contractor. Specializing in residential, commercial, and industrial electrical installations, cabling, DB dressing, and MEW approvals.">
-    <meta property="og:image" content="https://www.smartepro.com/images/about-team.png">
+    <meta property="og:image" content="https://www.smartepro.com/images/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="ar_KW">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://www.smartepro.com/">
     <meta property="twitter:title" content="Smart Energy | #1 Electrical Installations & Contracting in Kuwait">
     <meta property="twitter:description" content="Kuwait's leading MEW-approved electrical contractor. Specializing in residential, commercial, and industrial electrical installations, cabling, DB dressing, and MEW approvals.">
-    <meta property="twitter:image" content="https://www.smartepro.com/images/about-team.png">
+    <meta property="twitter:image" content="https://www.smartepro.com/images/og-image.jpg">
 
     <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+    <link rel="preload" as="image" href="images/hero-bg.webp" type="image/webp">
     <link rel="stylesheet" href="css/style.css">
     
     <!-- JSON-LD Local Business Structured Data for Kuwait Local SEO -->
@@ -40,6 +50,7 @@
       "@id": "https://www.smartepro.com/#organization",
       "url": "https://www.smartepro.com/",
       "telephone": "+96550699356",
+      "email": "admin@smartepro.com",
       "priceRange": "$$",
       "address": {
         "@type": "PostalAddress",
@@ -53,20 +64,6 @@
         "@type": "GeoCoordinates",
         "latitude": 29.3759,
         "longitude": 47.9774
-      },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday"
-        ],
-        "opens": "00:00",
-        "closes": "23:59"
       },
       "sameAs": [
         "https://www.linkedin.com/company/smartepro",
@@ -85,8 +82,8 @@
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="container nav-container">
-            <a href="#" class="logo">
-                <img src="images/logo.png" alt="Smart Energy Electrical Installations & Contracting Kuwait Logo" class="logo-img">
+            <a href="#home" class="logo">
+                <picture><source srcset="images/logo.webp" type="image/webp"><img src="images/logo.png" alt="Smart Energy Electrical Installations & Contracting Kuwait Logo" width="612" height="218" class="logo-img"></picture>
             </a>
             
             <ul class="nav-menu" id="navMenu">
@@ -95,6 +92,7 @@
                 <li><a href="#services" class="nav-link">Services</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="ar/" class="nav-link lang-switch" hreflang="ar" lang="ar">العربية</a></li>
                 <li><a href="#contact" class="btn btn-primary nav-cta">Get a Quote</a></li>
             </ul>
             
@@ -109,7 +107,7 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-bg">
-            <img src="images/hero-bg.jpg" alt="MEW Approved Electrical Installations & Contracting in Kuwait City - Smart Energy">
+            <picture><source srcset="images/hero-bg.webp" type="image/webp"><img src="images/hero-bg.jpg" alt="MEW Approved Electrical Installations & Contracting in Kuwait City - Smart Energy" width="1344" height="768" fetchpriority="high"></picture>
             <div class="hero-overlay"></div>
         </div>
         <div class="hero-particles" id="particles"></div>
@@ -200,7 +198,7 @@
             <div class="about-grid">
                 <div class="about-image" data-animate="fade-right">
                     <div class="image-frame">
-                        <img src="images/about-team.png" alt="MEW Licensed Electrical Engineers and Electricians in Kuwait - Smart Energy Team">
+                        <picture><source srcset="images/about-team.webp" type="image/webp"><img src="images/about-team.png" alt="MEW Licensed Electrical Engineers and Electricians in Kuwait - Smart Energy Team" width="1024" height="1024" loading="lazy" decoding="async"></picture>
                         <div class="image-accent"></div>
                     </div>
                     <div class="experience-badge">
@@ -353,7 +351,7 @@
             <div class="projects-grid">
                 <div class="project-card" data-category="medical" data-animate="fade-up">
                     <div class="project-image">
-                        <img src="images/project-hospital.jpg" alt="Taiba Hospital Healthcare Electrical Installation in Sabah Al-Salem, Kuwait">
+                        <picture><source srcset="images/project-hospital.webp" type="image/webp"><img src="images/project-hospital.jpg" alt="Taiba Hospital Healthcare Electrical Installation in Sabah Al-Salem, Kuwait" width="1184" height="864" loading="lazy" decoding="async"></picture>
                         <div class="project-overlay">
                             <span class="project-category">Medical</span>
                             <h3>Taiba Hospital</h3>
@@ -364,7 +362,7 @@
                 </div>
                 <div class="project-card" data-category="industrial" data-animate="fade-up" data-delay="100">
                     <div class="project-image">
-                        <img src="images/project-factory.jpg" alt="Kazma Factory Industrial Electrical Contracting in Amghara, Kuwait">
+                        <picture><source srcset="images/project-factory.webp" type="image/webp"><img src="images/project-factory.jpg" alt="Kazma Factory Industrial Electrical Contracting in Amghara, Kuwait" width="1184" height="864" loading="lazy" decoding="async"></picture>
                         <div class="project-overlay">
                             <span class="project-category">Industrial</span>
                             <h3>Kazma Factory</h3>
@@ -375,7 +373,7 @@
                 </div>
                 <div class="project-card" data-category="residential" data-animate="fade-up" data-delay="200">
                     <div class="project-image">
-                        <img src="images/project-villa.jpg" alt="Al-Ghanim Villa Complex Residential Electrical Installation in Messila, Kuwait">
+                        <picture><source srcset="images/project-villa.webp" type="image/webp"><img src="images/project-villa.jpg" alt="Al-Ghanim Villa Complex Residential Electrical Installation in Messila, Kuwait" width="1184" height="864" loading="lazy" decoding="async"></picture>
                         <div class="project-overlay">
                             <span class="project-category">Residential</span>
                             <h3>Al-Ghanim Villa Complex</h3>
@@ -386,7 +384,7 @@
                 </div>
                 <div class="project-card" data-category="commercial" data-animate="fade-up">
                     <div class="project-image">
-                        <img src="images/project-parking.jpg" alt="Al-Ahmadi Car Parking Commercial Electrical Contracting in Al-Ahmadi, Kuwait">
+                        <picture><source srcset="images/project-parking.webp" type="image/webp"><img src="images/project-parking.jpg" alt="Al-Ahmadi Car Parking Commercial Electrical Contracting in Al-Ahmadi, Kuwait" width="1184" height="864" loading="lazy" decoding="async"></picture>
                         <div class="project-overlay">
                             <span class="project-category">Commercial</span>
                             <h3>Al-Ahmadi Car Parking</h3>
@@ -602,7 +600,7 @@
                         </div>
                         <div class="info-content">
                             <h4>Website</h4>
-                            <a href="https://www.smartepro.com" target="_blank">www.smartepro.com</a>
+                            <a href="https://www.smartepro.com" target="_blank" rel="noopener">www.smartepro.com</a>
                         </div>
                     </div>
                     <div class="info-card">
@@ -615,30 +613,35 @@
                         </div>
                     </div>
                     <div class="social-links">
-                        <a href="#" class="social-link" aria-label="LinkedIn">
+                        <a href="https://www.linkedin.com/company/smartepro" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
-                        <a href="#" class="social-link" aria-label="Instagram">
+                        <a href="https://www.instagram.com/smartepro" class="social-link" aria-label="Instagram" target="_blank" rel="noopener">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="social-link" aria-label="WhatsApp">
+                        <a href="https://wa.me/96550699356" class="social-link" aria-label="WhatsApp" target="_blank" rel="noopener">
                             <i class="fab fa-whatsapp"></i>
                         </a>
                     </div>
                 </div>
                 <div class="contact-form-wrap" data-animate="fade-left">
                     <form class="contact-form" action="contact.php" method="POST" id="contactForm">
+                        <div class="hp-field" aria-hidden="true">
+                            <label for="website">Leave this field empty</label>
+                            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                        </div>
+                        <input type="hidden" name="lang" value="en">
                         <div class="form-group">
                             <label for="name">Your Name</label>
-                            <input type="text" id="name" name="name" class="form-input" placeholder="Full name" required>
+                            <input type="text" id="name" name="name" class="form-input" placeholder="Full name" maxlength="100" autocomplete="name" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" class="form-input" placeholder="email@example.com" required>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="email@example.com" maxlength="150" autocomplete="email" required>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" class="form-input" placeholder="+965 XXXX XXXX">
+                            <input type="tel" id="phone" name="phone" class="form-input" placeholder="+965 XXXX XXXX" maxlength="30" autocomplete="tel">
                         </div>
                         <div class="form-group">
                             <label for="subject">Subject</label>
@@ -652,14 +655,15 @@
                         </div>
                         <div class="form-group">
                             <label for="message">Your Message</label>
-                            <textarea id="message" name="message" class="form-input form-textarea" placeholder="Tell us about your project..." required></textarea>
+                            <textarea id="message" name="message" class="form-input form-textarea" placeholder="Tell us about your project..." maxlength="5000" required></textarea>
                         </div>
+                        <p class="form-error" id="formError" role="alert" hidden></p>
                         <button type="submit" class="btn btn-primary btn-submit">
                             <span>Send Message</span>
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </form>
-                    <div class="form-success" id="formSuccess">
+                    <div class="form-success" id="formSuccess" role="status" aria-live="polite">
                         <div class="success-icon">
                             <i class="fas fa-check-circle"></i>
                         </div>
@@ -676,8 +680,8 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <a href="#" class="footer-logo">
-                        <img src="images/logo.png" alt="Smart Energy Electrical Installations & Contracting in Kuwait" class="logo-img">
+                    <a href="#home" class="footer-logo">
+                        <picture><source srcset="images/logo.webp" type="image/webp"><img src="images/logo.png" alt="Smart Energy Electrical Installations & Contracting in Kuwait" width="612" height="218" class="logo-img" loading="lazy"></picture>
                     </a>
                     <p class="footer-desc">MEW-approved electrical contracting company in Kuwait, delivering Grade-A engineering solutions for residential, commercial, industrial, and government projects.</p>
                 </div>
@@ -710,17 +714,21 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p> Smart Energy Electrical Installations. All rights reserved.</p>
+                <p>&copy; <span id="year">2026</span> Smart Energy Electrical Installations. All rights reserved.</p>
                 <div class="footer-social">
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.linkedin.com/company/smartepro" aria-label="LinkedIn" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.instagram.com/smartepro" aria-label="Instagram" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/96550699356" aria-label="WhatsApp" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <a href="#" class="back-to-top" id="backToTop" aria-label="Back to top">
+    <a href="https://wa.me/96550699356?text=Hello%20Smart%20Energy%2C%20I%27d%20like%20a%20quote." class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <a href="#home" class="back-to-top" id="backToTop" aria-label="Back to top">
         <i class="fas fa-chevron-up"></i>
     </a>
 
