@@ -1,11 +1,11 @@
 <?php
 /**
  * Smart Energy - Contact Form Handler
- * Optimized for Hostinger Shared Hosting
  *
  * Accepts submissions from both the English (/) and Arabic (/ar/) pages.
- * Responds with JSON to the site's JavaScript, and redirects back to the
- * page for visitors without JavaScript.
+ * Only submissions sent by the site's own JavaScript are emailed: spam bots
+ * post straight to this file without running the page, so they are dropped.
+ * No auto-reply is sent, so the form can never be used to email strangers.
  */
 
 date_default_timezone_set('Asia/Kuwait');
@@ -19,6 +19,9 @@ $subject_prefix  = "[Smart Energy Website] ";
 $rate_limit_max    = 5;
 $rate_limit_window = 3600; // seconds
 
+// Anti-bot: minimum time between page load and submit (people take longer to type)
+$min_fill_ms = 3000;
+
 $lang = (isset($_POST['lang']) && $_POST['lang'] === 'ar') ? 'ar' : 'en';
 
 $messages = [
@@ -29,6 +32,8 @@ $messages = [
         'email'    => "Please enter a valid email address.",
         'too_long' => "Your message is too long. Please shorten it and try again.",
         'limited'  => "You have sent several messages recently. Please wait a while, or call us directly.",
+        'links'    => "For security, messages cannot contain links. Please remove them and try again.",
+        'nojs'     => "Please enable JavaScript to use the contact form, or reach us on WhatsApp or by phone: +965 5069 9356.",
     ],
     'ar' => [
         'success'  => "شكراً لتواصلك معنا. سنرد عليك خلال 24 ساعة.",
@@ -37,6 +42,8 @@ $messages = [
         'email'    => "يرجى إدخال بريد إلكتروني صحيح.",
         'too_long' => "رسالتك طويلة جداً. يرجى اختصارها والمحاولة مرة أخرى.",
         'limited'  => "لقد أرسلت عدة رسائل مؤخراً. يرجى الانتظار قليلاً أو الاتصال بنا مباشرة.",
+        'links'    => "لأسباب أمنية، لا يمكن أن تحتوي الرسالة على روابط. يرجى حذفها والمحاولة مرة أخرى.",
+        'nojs'     => "يرجى تفعيل JavaScript لاستخدام نموذج التواصل، أو تواصل معنا عبر واتساب أو الهاتف: 9356 5069 965+.",
     ],
 ];
 $text = $messages[$lang];
@@ -47,8 +54,15 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit();
 }
 
-// Honeypot (hidden field real visitors never fill): pretend success so bots learn nothing
-if (!empty($_POST['website'])) {
+// Bots post directly to this file; the site's JavaScript always sends this header
+if (($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') !== 'SmartEnergyForm') {
+    respond(false, $text['nojs'], $lang);
+}
+
+// Honeypot (hidden field real visitors never fill) or form sent implausibly fast:
+// pretend success so bots learn nothing
+$fill_ms = (int) ($_POST['form_elapsed'] ?? 0);
+if (!empty($_POST['website']) || $fill_ms < $min_fill_ms) {
     respond(true, $text['success'], $lang);
 }
 
@@ -70,6 +84,11 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
 if (mb_strlen($name) > 100 || mb_strlen($email) > 150 || mb_strlen($phone) > 30 || mb_strlen($message) > 5000) {
     respond(false, $text['too_long'], $lang);
+}
+
+// Links are the payload of almost all contact-form spam
+if (preg_match('~https?://|www\.|\[url|<a\s~i', $name . ' ' . $message)) {
+    respond(false, $text['links'], $lang);
 }
 
 if (!rate_limit_allows(client_ip(), $rate_limit_max, $rate_limit_window)) {
@@ -153,7 +172,6 @@ if (!$mail_sent) {
     respond(false, $text['error'], $lang);
 }
 
-send_auto_reply($email, $name, $lang, $sender_email);
 respond(true, $text['success'], $lang);
 
 
@@ -179,9 +197,21 @@ function encode_header($value) {
     return '=?UTF-8?B?' . base64_encode($value) . '?=';
 }
 
-/** Uses only the connection address, which unlike forwarded-for headers cannot be faked. */
+/**
+ * The visitor's IP. Behind Dokploy's proxy (Traefik) every request arrives from
+ * a private address, so use the last X-Forwarded-For entry: the proxy appends it,
+ * and a visitor cannot fake it (only entries before it).
+ */
 function client_ip() {
     $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+    $behind_proxy = filter_var($ip, FILTER_VALIDATE_IP)
+        && !filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+
+    if ($behind_proxy && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $forwarded = array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']));
+        $ip = end($forwarded);
+    }
+
     return filter_var($ip, FILTER_VALIDATE_IP) ? $ip : 'unknown';
 }
 
@@ -244,69 +274,3 @@ function respond($success, $message, $lang) {
     exit();
 }
 
-function send_auto_reply($to_email, $name, $lang, $sender_email) {
-    if ($lang === 'ar') {
-        $subject = "شكراً لتواصلك مع سمارت إنرجي";
-        $body = "
-                <p>عزيزي/عزيزتي " . h($name) . "،</p>
-                <p>شكراً لتواصلك مع <strong class='highlight'>سمارت إنرجي للتركيبات الكهربائية</strong>. لقد استلمنا رسالتك وسيقوم فريقنا بمراجعتها في أقرب وقت.</p>
-                <p>نرد عادةً على جميع الاستفسارات خلال <strong>24 ساعة</strong> في أيام العمل.</p>
-                <p>إذا كان طلبك عاجلاً، يمكنك الاتصال بنا مباشرة على:</p>
-                <p><strong dir='ltr'>+965 5069 9356</strong> أو <strong dir='ltr'>+965 6663 0709</strong></p>
-                <br>
-                <p>مع أطيب التحيات،</p>
-                <p><strong>فريق سمارت إنرجي</strong></p>";
-        $title = "شكراً لتواصلك معنا!";
-        $footer = "سمارت إنرجي للتركيبات الكهربائية | الكويت";
-        $dir = 'rtl';
-    } else {
-        $subject = "Thank you for contacting Smart Energy";
-        $body = "
-                <p>Dear " . h($name) . ",</p>
-                <p>Thank you for contacting <strong class='highlight'>Smart Energy Electrical Installations</strong>. We have received your message and our team will review it promptly.</p>
-                <p>We typically respond to all inquiries within <strong>24 hours</strong> during business days.</p>
-                <p>If your matter is urgent, please feel free to call us directly at:</p>
-                <p><strong>+965 5069 9356</strong> or <strong>+965 6663 0709</strong></p>
-                <br>
-                <p>Best regards,</p>
-                <p><strong>Smart Energy Team</strong></p>";
-        $title = "Thank You for Reaching Out!";
-        $footer = "Smart Energy Electrical Installations | Kuwait";
-        $dir = 'ltr';
-    }
-
-    $message = "
-    <!DOCTYPE html>
-    <html dir='" . $dir . "'>
-    <head>
-        <meta charset='UTF-8'>
-        <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: #0a1628; color: white; padding: 30px; text-align: center; }
-            .content { background: #f8fafc; padding: 30px; }
-            .footer { background: #f1f5f9; padding: 20px; text-align: center; font-size: 12px; color: #64748b; }
-            .highlight { color: #00a8cc; }
-        </style>
-    </head>
-    <body>
-        <div class='container'>
-            <div class='header'>
-                <h2>" . $title . "</h2>
-            </div>
-            <div class='content'>" . $body . "
-            </div>
-            <div class='footer'>
-                <p>" . $footer . "</p>
-                <p>admin@smartepro.com | www.smartepro.com</p>
-            </div>
-        </div>
-    </body>
-    </html>";
-
-    $headers  = "From: Smart Energy <" . $sender_email . ">\r\n";
-    $headers .= "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-
-    @mail($to_email, encode_header($subject), $message, $headers, "-f" . $sender_email);
-}
