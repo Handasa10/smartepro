@@ -224,6 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (contactForm) {
         const isArabic = document.documentElement.lang === 'ar';
         const formError = document.getElementById('formError');
+        const pageLoadedAt = Date.now();
         const text = isArabic ? {
             sending: 'جارٍ الإرسال...',
             failed: 'تعذّر إرسال رسالتك. يرجى المحاولة مرة أخرى أو التواصل معنا عبر الهاتف أو واتساب.'
@@ -248,11 +249,15 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + text.sending;
             submitBtn.disabled = true;
 
+            // contact.php only accepts submissions sent from here (spam bots post directly)
+            const formData = new FormData(contactForm);
+            formData.append('form_elapsed', Date.now() - pageLoadedAt);
+
             try {
                 const response = await fetch(contactForm.action, {
                     method: 'POST',
-                    body: new FormData(contactForm),
-                    headers: { 'Accept': 'application/json' }
+                    body: formData,
+                    headers: { 'Accept': 'application/json', 'X-Requested-With': 'SmartEnergyForm' }
                 });
                 const result = await response.json();
 
